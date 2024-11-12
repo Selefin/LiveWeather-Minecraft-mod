@@ -21,6 +21,7 @@ public class WeatherAPIClient {
         try {
             Scanner scanner = new Scanner(file);
             String line = scanner.nextLine();
+            this.city = line.replace("_", " ");
             if (line.contains("Location:")) {
                 this.city = line.split("Location: ")[1];
             }
