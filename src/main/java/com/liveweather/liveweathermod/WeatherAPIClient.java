@@ -12,7 +12,7 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class WeatherAPIClient {
-    protected String access_key = "4f599244af6605b3eef504907eb5287e";
+    protected String access_key = "your_weatherstack_api_key_here";
 
     private String city;
 
