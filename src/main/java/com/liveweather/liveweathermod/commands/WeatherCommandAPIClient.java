@@ -30,7 +30,7 @@ public class WeatherCommandAPIClient {
 
     public String findCity(String country) {
         try {
-            File file = new File("C:\\Users\\melvy\\Documents\\_\\LiveWeather\\Capitals.txt");
+            File file = new File("D:\\Documents (HDD)\\Cours\\3A_V2\\POO_Java\\Final Project\\LiveWeather - Minecraft mod\\src\\main\\resources\\Capitals.txt");
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
