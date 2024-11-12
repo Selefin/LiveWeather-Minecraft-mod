@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 
 public class LocationSetter {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("set_location")
+        dispatcher.register(Commands.literal("set-location")
                 .then(Commands.argument("location", StringArgumentType.string())
                         .executes(LocationSetter::execute)));
     }
