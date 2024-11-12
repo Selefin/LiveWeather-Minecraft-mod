@@ -1,7 +1,5 @@
 package com.liveweather.liveweathermod;
 
-import com.liveweather.liveweathermod.commands.WeatherCommandAPIClient;
-
 public class WeatherService {
     private String city;
     private String weather;
@@ -9,7 +7,7 @@ public class WeatherService {
     private int precipitation;
 
     private void getAndTransformData() {
-        WeatherCommandAPIClient weatherAPI = new WeatherCommandAPIClient();
+        WeatherAPIClient weatherAPI = new WeatherAPIClient();
         String data = weatherAPI.findWeather(weatherAPI.getCity());
         if (data.contains("error")) {
             System.out.println("Error: " + data.split("error\":\\{")[1].split("}")[0]);

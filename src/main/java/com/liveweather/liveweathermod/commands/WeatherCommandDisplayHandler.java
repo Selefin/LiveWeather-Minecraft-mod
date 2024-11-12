@@ -1,4 +1,5 @@
 package com.liveweather.liveweathermod.commands;
+import com.liveweather.liveweathermod.WeatherAPIClient;
 import com.liveweather.liveweathermod.WeatherService;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -22,28 +23,7 @@ public class WeatherCommandDisplayHandler {
         String chatWeather = weatherService.printWeather();
         source.sendSystemMessage(Component.nullToEmpty(chatWeather));
         ServerLevel world = source.getLevel();
-        applyWeather(world, weatherService.getWeather(), weatherService.getPrecipitation());
+        WeatherAPIClient.applyWeather(world, weatherService.getWeather(), weatherService.getPrecipitation());
         return Command.SINGLE_SUCCESS;
-    }
-
-    public static void applyWeather(ServerLevel world, String weather, int precipitation) {
-        switch(weather) {
-            case "Clear", "Sunny", "Partly Cloudy", "Cloudy", "Fog", "Haze", "Mist", "Windy":
-                world.setWeatherParameters(12000, 0, false, false);
-                break;
-            case "Rain", "Heavy Rain", "Snow", "Light Snow", "Heavy Snow", "Drizzle", "Sleet":
-                world.setWeatherParameters(0, 12000, true, false);
-                break;
-            case "Thunderstorm", "Storm":
-                world.setWeatherParameters(0, 12000, true, true);
-                break;
-            default:
-                if (precipitation > 0) {
-                    world.setWeatherParameters(0, 12000, true, false);
-                } else {
-                    world.setWeatherParameters(12000, 0, false, false);
-                }
-                break;
-        }
     }
 }

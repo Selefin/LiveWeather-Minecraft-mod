@@ -1,4 +1,6 @@
-package com.liveweather.liveweathermod.commands;
+package com.liveweather.liveweathermod;
+
+import net.minecraft.server.level.ServerLevel;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,12 +11,12 @@ import java.net.http.HttpResponse;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class WeatherCommandAPIClient {
+public class WeatherAPIClient {
     protected String access_key = "4f599244af6605b3eef504907eb5287e";
 
     private String city;
 
-    public WeatherCommandAPIClient() {
+    public WeatherAPIClient() {
         updateCity();
     }
 
@@ -60,6 +62,27 @@ public class WeatherCommandAPIClient {
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
             return "Unknown";
+        }
+    }
+
+    public static void applyWeather(ServerLevel world, String weather, int precipitation) {
+        switch(weather) {
+            case "Clear", "Sunny", "Partly Cloudy", "Cloudy", "Fog", "Haze", "Mist", "Windy":
+                world.setWeatherParameters(12000, 0, false, false);
+                break;
+            case "Rain", "Heavy Rain", "Snow", "Light Snow", "Heavy Snow", "Drizzle", "Sleet":
+                world.setWeatherParameters(0, 12000, true, false);
+                break;
+            case "Thunderstorm", "Storm":
+                world.setWeatherParameters(0, 12000, true, true);
+                break;
+            default:
+                if (precipitation > 0) {
+                    world.setWeatherParameters(0, 12000, true, false);
+                } else {
+                    world.setWeatherParameters(12000, 0, false, false);
+                }
+                break;
         }
     }
 }
