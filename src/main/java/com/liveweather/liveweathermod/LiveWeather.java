@@ -37,7 +37,7 @@ import org.slf4j.Logger;
 @Mod(LiveWeather.MODID)
 public class LiveWeather
 {
-    public static final WeatherUpdateDisplayHandler weatherUpdater = new WeatherUpdateDisplayHandler();
+    private static final WeatherUpdateDisplayHandler weatherUpdater = new WeatherUpdateDisplayHandler();
     // Define mod id in a common place for everything to reference
     public static final String MODID = "liveweather";
     // Directly reference a slf4j logger
@@ -120,8 +120,7 @@ public class LiveWeather
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents
-    {
+    public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
