@@ -1,11 +1,8 @@
 package com.liveweather.liveweathermod;
-import com.liveweather.liveweathermod.commands.WeatherDisplayHandler;
-import com.liveweather.liveweathermod.commands.WeatherService;
+import com.liveweather.liveweathermod.commands.WeatherCommandDisplayHandler;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -19,7 +16,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,8 +29,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
-
-import static com.liveweather.liveweathermod.commands.WeatherDisplayHandler.applyWeather;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(LiveWeather.MODID)
@@ -135,6 +129,6 @@ public class LiveWeather
 
     @SubscribeEvent
     public void onRegisterCommands(RegisterCommandsEvent event) {
-        WeatherDisplayHandler.register(event.getDispatcher());
+        WeatherCommandDisplayHandler.register(event.getDispatcher());
     }
 }

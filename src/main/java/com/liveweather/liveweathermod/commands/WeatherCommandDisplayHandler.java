@@ -1,4 +1,5 @@
 package com.liveweather.liveweathermod.commands;
+import com.liveweather.liveweathermod.WeatherService;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
@@ -7,14 +8,11 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 
-public class WeatherDisplayHandler {
-
-    private static final int WEATHER_CHANGE_INTERVAL = 1 * 60 * 20;
-    private static int tickCounter = 0;
+public class WeatherCommandDisplayHandler {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("getweather")
-                .executes(WeatherDisplayHandler::execute));
+        dispatcher.register(Commands.literal("get-weather")
+                .executes(WeatherCommandDisplayHandler::execute));
     }
 
     private static int execute(CommandContext<CommandSourceStack> context) {

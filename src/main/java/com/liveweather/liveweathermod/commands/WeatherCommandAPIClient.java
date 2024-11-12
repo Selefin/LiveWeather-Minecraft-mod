@@ -9,13 +9,12 @@ import java.net.http.HttpResponse;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class WeatherAPIClient {
+public class WeatherCommandAPIClient {
     protected String access_key = "4f599244af6605b3eef504907eb5287e";
 
-    private String country;
     private String city;
 
-    public WeatherAPIClient() {
+    public WeatherCommandAPIClient() {
         updateCity();
     }
 
@@ -25,8 +24,8 @@ public class WeatherAPIClient {
 
     public void updateCity() {
         Locale userLocale = Locale.getDefault();
-        this.country = userLocale.getDisplayCountry(Locale.ENGLISH);
-        this.city = findCity(this.country);
+        String country = userLocale.getDisplayCountry(Locale.ENGLISH);
+        this.city = findCity(country);
     }
 
     public String findCity(String country) {
