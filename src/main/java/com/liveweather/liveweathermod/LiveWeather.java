@@ -1,4 +1,5 @@
 package com.liveweather.liveweathermod;
+import com.liveweather.liveweathermod.autoUpdate.WeatherUpdateDisplayHandler;
 import com.liveweather.liveweathermod.commands.WeatherCommandDisplayHandler;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
@@ -16,6 +17,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -34,6 +36,7 @@ import org.slf4j.Logger;
 @Mod(LiveWeather.MODID)
 public class LiveWeather
 {
+    public static final WeatherUpdateDisplayHandler weatherUpdater = new WeatherUpdateDisplayHandler();
     // Define mod id in a common place for everything to reference
     public static final String MODID = "liveweather";
     // Directly reference a slf4j logger
@@ -130,5 +133,24 @@ public class LiveWeather
     @SubscribeEvent
     public void onRegisterCommands(RegisterCommandsEvent event) {
         WeatherCommandDisplayHandler.register(event.getDispatcher());
+    }
+
+    @SubscribeEvent
+    public static void onClientTick(TickEvent.ClientTickEvent event) {
+        System.out.println("Level tick event");
+        if (event.phase == TickEvent.Phase.END) {
+            WeatherUpdateDisplayHandler Updater = new WeatherUpdateDisplayHandler();
+            Updater.updateWeather();
+        }
+    }
+
+    @Mod.EventBusSubscriber
+    public static class TickHandler {
+        @SubscribeEvent
+        public static void onServerTick(TickEvent.ServerTickEvent event) {
+            if (event.phase == TickEvent.Phase.END) {
+                weatherUpdater.updateWeather();
+            }
+        }
     }
 }
