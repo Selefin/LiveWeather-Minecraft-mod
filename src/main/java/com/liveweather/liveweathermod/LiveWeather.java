@@ -1,5 +1,6 @@
 package com.liveweather.liveweathermod;
 import com.liveweather.liveweathermod.autoUpdate.WeatherUpdateDisplayHandler;
+import com.liveweather.liveweathermod.commands.LocationSetter;
 import com.liveweather.liveweathermod.commands.WeatherCommandDisplayHandler;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
@@ -133,15 +134,7 @@ public class LiveWeather
     @SubscribeEvent
     public void onRegisterCommands(RegisterCommandsEvent event) {
         WeatherCommandDisplayHandler.register(event.getDispatcher());
-    }
-
-    @SubscribeEvent
-    public static void onClientTick(TickEvent.ClientTickEvent event) {
-        System.out.println("Level tick event");
-        if (event.phase == TickEvent.Phase.END) {
-            WeatherUpdateDisplayHandler Updater = new WeatherUpdateDisplayHandler();
-            Updater.updateWeather();
-        }
+        LocationSetter.register(event.getDispatcher());
     }
 
     @Mod.EventBusSubscriber

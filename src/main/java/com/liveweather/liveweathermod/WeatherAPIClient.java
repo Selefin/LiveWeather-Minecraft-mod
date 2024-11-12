@@ -17,7 +17,20 @@ public class WeatherAPIClient {
     private String city;
 
     public WeatherAPIClient() {
-        updateCity();
+        File file = new File("D:\\Documents (HDD)\\Cours\\3A_V2\\POO_Java\\Final Project\\LiveWeather - Minecraft mod\\src\\main\\resources\\location.txt");
+        try {
+            Scanner scanner = new Scanner(file);
+            String line = scanner.nextLine();
+            if (line.contains("Location:")) {
+                this.city = line.split("Location: ")[1];
+            }
+            else {
+                updateCity();
+            }
+        } catch (IOException e) {
+            System.out.println("File not found: " + e.getMessage());
+            updateCity();
+        }
     }
 
     public String getCity() {
@@ -31,6 +44,10 @@ public class WeatherAPIClient {
     }
 
     public String findCity(String country) {
+        if(country.equals("Unknown")) {
+            System.err.println("Error: Unknown country");
+            return "Unknown";
+        }
         try {
             File file = new File("D:\\Documents (HDD)\\Cours\\3A_V2\\POO_Java\\Final Project\\LiveWeather - Minecraft mod\\src\\main\\resources\\Capitals.txt");
             Scanner scanner = new Scanner(file);
