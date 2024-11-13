@@ -1,7 +1,6 @@
 package com.liveweather.liveweathermod;
 
 import net.minecraft.server.level.ServerLevel;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -21,15 +20,15 @@ public class WeatherAPIClient {
         try {
             Scanner scanner = new Scanner(file);
             String line = scanner.nextLine();
-            this.city = line.replace("_", " ");
-            if (line.contains("Location:")) {
-                this.city = line.split("Location: ")[1];
-            }
-            else {
+            String cityName = line.replace("_", " ");
+            if(cityName.equals("Unknown")) {
                 updateCity();
             }
+            else {
+                this.city = cityName.split("Location: ")[1];
+            }
         } catch (IOException e) {
-            System.out.println("File not found: " + e.getMessage());
+            System.err.println("File not found: " + e.getMessage());
             updateCity();
         }
     }
@@ -88,7 +87,7 @@ public class WeatherAPIClient {
             case "Clear", "Sunny", "Partly Cloudy", "Cloudy", "Fog", "Haze", "Mist", "Windy":
                 world.setWeatherParameters(12000, 0, false, false);
                 break;
-            case "Rain", "Heavy Rain", "Snow", "Light Snow", "Heavy Snow", "Drizzle", "Sleet":
+            case "Rain", "Heavy Rain", "Snow", "Light Snow", "Heavy Snow", "Drizzle", "Sleet", "Light Rain":
                 world.setWeatherParameters(0, 12000, true, false);
                 break;
             case "Thunderstorm", "Storm":
@@ -97,7 +96,8 @@ public class WeatherAPIClient {
             default:
                 if (precipitation > 0) {
                     world.setWeatherParameters(0, 12000, true, false);
-                } else {
+                }
+                else {
                     world.setWeatherParameters(12000, 0, false, false);
                 }
                 break;

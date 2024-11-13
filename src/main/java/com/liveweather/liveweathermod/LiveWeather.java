@@ -1,4 +1,5 @@
 package com.liveweather.liveweathermod;
+
 import com.liveweather.liveweathermod.autoUpdate.WeatherUpdateDisplayHandler;
 import com.liveweather.liveweathermod.commands.LocationSetter;
 import com.liveweather.liveweathermod.commands.WeatherCommandDisplayHandler;

@@ -21,13 +21,17 @@ public class LocationSetter {
         CommandSourceStack source = context.getSource();
         String location = StringArgumentType.getString(context, "location");
         source.sendSystemMessage(Component.literal("Setting location to " + location));
-        writeToFile(location);
+        writeLocationToFile(location);
         return Command.SINGLE_SUCCESS;
     }
 
-    private static void writeToFile(String location) {
+    private static void writeLocationToFile(String location) {
         try (PrintWriter writer = new PrintWriter("D:\\Documents (HDD)\\Cours\\3A_V2\\POO_Java\\Final Project\\LiveWeather - Minecraft mod\\src\\main\\resources\\location.txt")) {
-            writer.println("Location: " + location);
+            if(location.equals("Unknown")) {
+                writer.println("Unknown");
+            } else {
+                writer.println("Location: " + location);
+            }
         } catch (IOException e) {
             System.err.println("Error while writing the file : " + e);
         }

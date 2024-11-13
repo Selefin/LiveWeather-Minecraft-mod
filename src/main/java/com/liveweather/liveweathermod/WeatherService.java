@@ -9,7 +9,7 @@ public class WeatherService {
     private void getAndTransformData() {
         WeatherAPIClient weatherAPI = new WeatherAPIClient();
         String data = weatherAPI.findWeather(weatherAPI.getCity());
-        if (data.contains("error")) {
+        if (data.contains("Error")) {
             System.out.println("Error: " + data.split("error\":\\{")[1].split("}")[0]);
             return;
         }
