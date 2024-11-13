@@ -1,6 +1,5 @@
 package com.liveweather.liveweathermod;
 
-import net.minecraft.server.level.ServerLevel;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -79,28 +78,6 @@ public class WeatherAPIClient {
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
             return "Unknown";
-        }
-    }
-
-    public static void applyWeather(ServerLevel world, String weather, int precipitation) {
-        switch(weather) {
-            case "Clear", "Sunny", "Partly Cloudy", "Cloudy", "Fog", "Haze", "Mist", "Windy":
-                world.setWeatherParameters(12000, 0, false, false);
-                break;
-            case "Rain", "Heavy Rain", "Snow", "Light Snow", "Heavy Snow", "Drizzle", "Sleet", "Light Rain":
-                world.setWeatherParameters(0, 12000, true, false);
-                break;
-            case "Thunderstorm", "Storm":
-                world.setWeatherParameters(0, 12000, true, true);
-                break;
-            default:
-                if (precipitation > 0) {
-                    world.setWeatherParameters(0, 12000, true, false);
-                }
-                else {
-                    world.setWeatherParameters(12000, 0, false, false);
-                }
-                break;
         }
     }
 }

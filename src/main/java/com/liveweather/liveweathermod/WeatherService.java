@@ -1,5 +1,7 @@
 package com.liveweather.liveweathermod;
 
+import net.minecraft.server.level.ServerLevel;
+
 public class WeatherService {
     private String city;
     private String weather;
@@ -38,5 +40,27 @@ public class WeatherService {
 
     public int getPrecipitation() {
         return this.precipitation;
+    }
+
+    public static void applyWeather(ServerLevel world, String weather, int precipitation) {
+        switch(weather) {
+            case "Clear", "Sunny", "Partly Cloudy", "Cloudy", "Fog", "Haze", "Mist", "Windy":
+                world.setWeatherParameters(444 * 60 * 20, 0, false, false);
+                break;
+            case "Rain", "Heavy Rain", "Snow", "Light Snow", "Heavy Snow", "Drizzle", "Sleet", "Light Rain":
+                world.setWeatherParameters(0, 444 * 60 * 20, true, false);
+                break;
+            case "Thunderstorm", "Storm":
+                world.setWeatherParameters(0, 444 * 60 * 20, true, true);
+                break;
+            default:
+                if (precipitation > 0) {
+                    world.setWeatherParameters(0, 444 * 60 * 20, true, false);
+                }
+                else {
+                    world.setWeatherParameters(444 * 60 * 20, 0, false, false);
+                }
+                break;
+        }
     }
 }

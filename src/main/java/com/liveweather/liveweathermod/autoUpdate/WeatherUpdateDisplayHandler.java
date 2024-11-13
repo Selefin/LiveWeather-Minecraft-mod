@@ -1,6 +1,5 @@
 package com.liveweather.liveweathermod.autoUpdate;
 
-import com.liveweather.liveweathermod.WeatherAPIClient;
 import com.liveweather.liveweathermod.WeatherService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -21,7 +20,7 @@ public class WeatherUpdateDisplayHandler {
             WeatherService weatherService = new WeatherService();
             String chatWeather = weatherService.printWeather();
             world.players().forEach(player -> player.sendSystemMessage(Component.nullToEmpty(chatWeather)));
-            WeatherAPIClient.applyWeather(world, weatherService.getWeather(), weatherService.getPrecipitation());
+            WeatherService.applyWeather(world, weatherService.getWeather(), weatherService.getPrecipitation());
         } else {
             this.tickCounter++;
         }

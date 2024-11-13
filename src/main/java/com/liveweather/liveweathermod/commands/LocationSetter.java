@@ -20,6 +20,9 @@ public class LocationSetter {
     private static int execute(CommandContext<CommandSourceStack> context) {
         CommandSourceStack source = context.getSource();
         String location = StringArgumentType.getString(context, "location");
+        if(location.equals("reset")) {
+            location = "Unknown";
+        }
         source.sendSystemMessage(Component.literal("Setting location to " + location));
         writeLocationToFile(location);
         return Command.SINGLE_SUCCESS;

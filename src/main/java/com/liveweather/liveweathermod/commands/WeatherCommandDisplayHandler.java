@@ -1,5 +1,5 @@
 package com.liveweather.liveweathermod.commands;
-import com.liveweather.liveweathermod.WeatherAPIClient;
+
 import com.liveweather.liveweathermod.WeatherService;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -23,7 +23,7 @@ public class WeatherCommandDisplayHandler {
         String chatWeather = weatherService.printWeather();
         source.sendSystemMessage(Component.nullToEmpty(chatWeather));
         ServerLevel world = source.getLevel();
-        WeatherAPIClient.applyWeather(world, weatherService.getWeather(), weatherService.getPrecipitation());
+        WeatherService.applyWeather(world, weatherService.getWeather(), weatherService.getPrecipitation());
         return Command.SINGLE_SUCCESS;
     }
 }
