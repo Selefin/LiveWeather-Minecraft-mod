@@ -23,7 +23,7 @@ public class WeatherCommandDisplayHandler {
         String chatWeather = weatherService.printWeather();
         source.sendSystemMessage(Component.nullToEmpty(chatWeather));
         ServerLevel world = source.getLevel();
-        WeatherService.applyWeather(world, weatherService.getWeather(), weatherService.getPrecipitation());
+        WeatherService.applyWeather(world, weatherService.getWeather());
         return Command.SINGLE_SUCCESS;
     }
 }

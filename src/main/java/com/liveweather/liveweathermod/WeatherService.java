@@ -6,7 +6,6 @@ public class WeatherService {
     private String city;
     private String weather;
     private int temperature;
-    private int precipitation;
 
     private void getAndTransformData() {
         WeatherAPIClient weatherAPI = new WeatherAPIClient();
@@ -18,7 +17,6 @@ public class WeatherService {
         this.city = data.split("name\":\"")[1].split("\",\"")[0];
         this.weather = data.split("weather_descriptions\":\\[\"")[1].split("\"]")[0];
         this.temperature = Integer.parseInt(data.split("temperature\":")[1].split(",")[0]);
-        this.precipitation = Integer.parseInt(data.split("precip\":")[1].split(",")[0]);
     }
 
     public String toString() {
@@ -34,17 +32,9 @@ public class WeatherService {
         return this.weather;
     }
 
-    public int getTemperature() {
-        return this.temperature;
-    }
-
-    public int getPrecipitation() {
-        return this.precipitation;
-    }
-
-    public static void applyWeather(ServerLevel world, String weather, int precipitation) {
-        switch(weather) {
-            case "Clear", "Sunny", "Partly Cloudy", "Cloudy", "Fog", "Haze", "Mist", "Windy":
+    public static void applyWeather(ServerLevel world, String weather) {
+        switch(weather.split(",")[0]) {
+            case "Clear", "Sunny", "Partly Cloudy", "Cloudy", "Fog", "Haze", "Mist", "Windy", "Partly cloudy":
                 world.setWeatherParameters(444 * 60 * 20, 0, false, false);
                 break;
             case "Rain", "Heavy Rain", "Snow", "Light Snow", "Heavy Snow", "Drizzle", "Sleet", "Light Rain":
@@ -54,12 +44,7 @@ public class WeatherService {
                 world.setWeatherParameters(0, 444 * 60 * 20, true, true);
                 break;
             default:
-                if (precipitation > 0) {
-                    world.setWeatherParameters(0, 444 * 60 * 20, true, false);
-                }
-                else {
-                    world.setWeatherParameters(444 * 60 * 20, 0, false, false);
-                }
+                System.err.println("Error: Unknown weather");
                 break;
         }
     }

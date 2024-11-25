@@ -20,7 +20,7 @@ public class WeatherUpdateDisplayHandler {
             WeatherService weatherService = new WeatherService();
             String chatWeather = weatherService.printWeather();
             world.players().forEach(player -> player.sendSystemMessage(Component.nullToEmpty(chatWeather)));
-            WeatherService.applyWeather(world, weatherService.getWeather(), weatherService.getPrecipitation());
+            WeatherService.applyWeather(world, weatherService.getWeather());
         } else {
             this.tickCounter++;
         }
