@@ -8,14 +8,21 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Locale;
 import java.util.Scanner;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class WeatherAPIClient {
-    protected String access_key = "your_weatherstack_api_key_here";
 
     private String city;
+    private Dotenv dotenv;
 
     public WeatherAPIClient() {
-        File file = new File("D:\\Documents (HDD)\\Cours\\3A_V2\\POO_Java\\Final Project\\LiveWeather - Minecraft mod\\src\\main\\resources\\location.txt");
+        this.dotenv = null;
+        this.dotenv = Dotenv.configure()
+                .directory("..\\src\\main\\resources")
+                .load();
+
+        File file = new File("..\\src\\main\\resources\\location.txt");
+
         try {
             Scanner scanner = new Scanner(file);
             String line = scanner.nextLine();
@@ -44,11 +51,11 @@ public class WeatherAPIClient {
 
     public String findCity(String country) {
         if(country.equals("Unknown")) {
-            System.err.println("Error: Unknown country");
+            System.err.println("Error: The country could not be found");
             return "Unknown";
         }
         try {
-            File file = new File("D:\\Documents (HDD)\\Cours\\3A_V2\\POO_Java\\Final Project\\LiveWeather - Minecraft mod\\src\\main\\resources\\Capitals.txt");
+            File file = new File("..\\src\\main\\resources\\Capitals.txt");
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
@@ -65,19 +72,21 @@ public class WeatherAPIClient {
 
     public String findWeather(String city) {
         if (city.equals("Unknown")) {
-            System.err.println("Error: Unknown city");
-            return "Error: Unknown city";
+            System.err.println("Error: Cannot find weather for unknown city");
+            return "Error: Cannot find weather for unknown city";
         }
+
+        String access_key = this.dotenv.get("WEATHERSTACK_API_KEY");
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://api.weatherstack.com/current?access_key=" + this.access_key + "&query=" + city))
+                .uri(URI.create("http://api.weatherstack.com/current?access_key=" + access_key + "&query=" + city))
                 .build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             return response.body();
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
-            return "Unknown";
+            return "Error: " + e.getMessage();
         }
     }
 }
